@@ -35,6 +35,11 @@ writeLog(DEBUG_PRIO priority, const char* format, ...) {
 
 #else
 
+extern "C" int __attribute__((const, visibility("default"))) rawspeed_get_number_of_processor_cores() {
+  return 4;
+}
+
+
 void writeLog(DEBUG_PRIO priority, const char* format, ...) {
 #ifndef _DEBUG
   if (priority < DEBUG_PRIO_INFO)

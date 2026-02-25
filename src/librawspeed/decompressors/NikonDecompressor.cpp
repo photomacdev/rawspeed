@@ -227,7 +227,7 @@ class NikonLASDecompressor {
       } else {
         l = 8;
         while (code > dctbl1.maxcode[l]) {
-          temp = input >> (15 - l) & 1;
+          temp = extractHighBits(input, l, /*effectiveBitwidth=*/15) & 1;
           code = (code << 1) | temp;
           l++;
         }
@@ -257,7 +257,7 @@ class NikonLASDecompressor {
       }
 
       if (rv) {
-        int x = input >> (16 - l - rv) & ((1 << rv) - 1);
+        int x = extractHighBits(input, l + rv) & ((1 << rv) - 1);
         if ((x & (1 << (rv - 1))) == 0)
           x -= (1 << rv) - 1;
         dctbl1.bigTable[i] =
@@ -302,7 +302,7 @@ public:
    *
    *--------------------------------------------------------------
    */
-  int decodeNext(BitPumpMSB& bits) { // NOLINT: google-runtime-references
+  int decodeDifference(BitPumpMSB& bits) { // NOLINT: google-runtime-references
     int rv;
     int l;
     int temp;
@@ -492,7 +492,7 @@ void NikonDecompressor::decompress(BitPumpMSB* bits, int start_y, int end_y) {
   for (int row = start_y; row < end_y; row++) {
     std::array<int, 2> pred = pUp[row & 1];
     for (int col = 0; col < out.width; col++) {
-      pred[col & 1] += ht.decodeNext(*bits);
+      pred[col & 1] += ht.decodeDifference(*bits);
       if (col < 2)
         pUp[row & 1][col & 1] = pred[col & 1];
       rawdata->setWithLookUp(clampBits(pred[col & 1], 15),

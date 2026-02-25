@@ -26,11 +26,26 @@
 
 namespace rawspeed {
 
+/* .mydiff
 template <typename T> struct RangesOverlapCmp final {
   constexpr bool operator()(const T& lhs, const T& rhs) const {
     return !RangesOverlap(lhs, rhs);
   }
 };
+
+Previous comparator returns true if ranges do not ovelrap.
+In this case situation requirement 
+if RangesOverlapCmp(lhs, rhs) == true then RangesOverlapCmp(rhs, lhs) == false 
+is not satisfied
+*/
+
+template <typename T> struct RangesOverlapCmp final {
+    constexpr bool operator()(const T& lhs, const T& rhs) const {
+        return !RangesOverlap(lhs, rhs) && lhs.begin() < rhs.begin();
+    }
+};
+
+//end .mydiff
 
 template <typename T> using NORangesSet = std::set<T, RangesOverlapCmp<T>>;
 

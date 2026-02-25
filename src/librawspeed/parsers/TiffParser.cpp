@@ -102,7 +102,7 @@ std::unique_ptr<RawDecoder> TiffParser::makeDecoder(TiffRootIFDOwner root,
     if (!dChecker(root.get(), mInput))
       continue;
 
-    return dConstructor(move(root), mInput);
+    return dConstructor(std::move(root), mInput);
   }
 
   ThrowTPE("No decoder found. Sorry.");

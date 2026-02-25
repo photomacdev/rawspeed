@@ -21,6 +21,7 @@
 #pragma once
 
 #include "rawspeedconfig.h"
+#include "rawspeed_export.h"
 
 #include "common/Common.h" // for isPowerOfTwo
 #include <cstddef>         // for size_t
@@ -95,6 +96,6 @@ alignedMallocArray(size_t nmemb) {
 void alignedFree(void* ptr);
 
 // coverity[+free : arg-0]
-void alignedFreeConstPtr(const void* ptr);
+RAWSPEED_EXPORT void alignedFreeConstPtr(const void* ptr);
 
 } // namespace rawspeed

@@ -32,6 +32,8 @@
 
 namespace rawspeed {
 
+//.mydiff
+/*
 template <typename T>
 [[noreturn]] void RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
     __attribute__((noreturn, format(printf, 1, 2)))
@@ -88,5 +90,70 @@ public:
 
 #define ThrowRSE(...)                                                          \
   ThrowExceptionHelper(rawspeed::RawspeedException, __VA_ARGS__)
+*/
+
+
+class IOException : public std::runtime_error {
+public: IOException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowIOE(msg, ...)                                                    \
+    throw IOException(msg)
+
+class FileIOException : public std::runtime_error {
+public: FileIOException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowFIE(msg, ...)                                                    \
+    throw FileIOException(msg)
+
+class CiffParserException : public std::runtime_error {
+public: CiffParserException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowCPE(msg, ...)                                                    \
+    throw CiffParserException(msg)
+
+class FiffParserException : public std::runtime_error {
+public: FiffParserException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowFPE(msg, ...)                                                      \
+    throw FiffParserException(msg)
+
+class RawParserException : public std::runtime_error {
+public: RawParserException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowRPE(msg, ...)                                                      \
+    throw RawParserException(msg)
+
+class TiffParserException : public std::runtime_error {
+public: TiffParserException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowTPE(msg, ...)                                                    \
+    throw TiffParserException(msg)
+
+class RawDecoderException : public std::runtime_error {
+public: RawDecoderException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowRDE(msg, ...)                                                    \
+    throw RawDecoderException(msg)
+
+class RawspeedException : public std::runtime_error {
+public: RawspeedException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowRSE(msg, ...)                                                      \
+    throw RawspeedException(msg)
+
+class CameraMetadataException : public std::runtime_error {
+public: CameraMetadataException(const char* msg) : std::runtime_error(msg)
+    {}
+};
+#define ThrowCME(msg, ...)                                                      \
+    throw CameraMetadataException(msg)
 
 } // namespace rawspeed

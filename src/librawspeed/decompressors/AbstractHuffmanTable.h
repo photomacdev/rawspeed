@@ -53,17 +53,23 @@ public:
                                  const CodeSymbol& partial) {
       assert(partial.code_len <= symbol.code_len);
 
-      auto getNHighBits = [](const CodeSymbol& s, unsigned bits) -> uint16_t {
-        const auto shift = s.code_len - bits;
-        return s.code >> shift;
-      };
-
-      const auto s0 = getNHighBits(symbol, partial.code_len);
+      const auto s0 = extractHighBits(symbol.code, partial.code_len,
+                                      /*effectiveBitwidth=*/symbol.code_len);
       const auto s1 = partial.code;
 
       return s0 == s1;
     }
   };
+
+  void verifyCodeSymbolsAreValidDiffLenghts() const {
+    for (const auto cValue : codeValues) {
+      if (cValue <= 16)
+        continue;
+      ThrowRDE("Corrupt Huffman code: difference length %u longer than 16",
+               cValue);
+    }
+    assert(maxCodePlusDiffLength() <= 32U);
+  }
 
 protected:
   bool fullDecode = true;
@@ -89,6 +95,19 @@ protected:
   // last pixel. Valid values are in the range 0..16.
   // extend() is used to decode the difference bits to a signed int.
   std::vector<uint8_t> codeValues; // index is just sequential number
+
+  void setup(bool fullDecode_, bool fixDNGBug16_) {
+    this->fullDecode = fullDecode_;
+    this->fixDNGBug16 = fixDNGBug16_;
+
+    if (fullDecode) {
+      // If we are in a full-decoding mode, we will be interpreting code values
+      // as bit length of the following difference, which incurs hard limit
+      // of 16 (since we want to need to read at most 32 bits max for a symbol
+      // plus difference). Though we could enforce it per-code instead?
+      verifyCodeSymbolsAreValidDiffLenghts();
+    }
+  }
 
   static void VerifyCodeSymbols(const std::vector<CodeSymbol>& symbols) {
 #ifndef NDEBUG
@@ -215,11 +234,6 @@ public:
     codeValues.reserve(maxCodesCount());
     std::copy(data.begin(), data.end(), std::back_inserter(codeValues));
     assert(codeValues.size() == maxCodesCount());
-
-    for (const auto cValue : codeValues) {
-      if (cValue > 16)
-        ThrowRDE("Corrupt Huffman. Code value %u is bigger than 16", cValue);
-    }
   }
 
   template <typename BIT_STREAM, bool FULL_DECODE>

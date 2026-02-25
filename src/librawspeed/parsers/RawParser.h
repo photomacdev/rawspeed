@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "rawspeed_export.h"
 #include <memory> // for unique_ptr
 
 namespace rawspeed {
@@ -30,7 +31,7 @@ class CameraMetaData;
 
 class RawDecoder;
 
-class RawParser {
+class RAWSPEED_EXPORT RawParser {
 public:
   explicit RawParser(const Buffer* inputData) : mInput(inputData) {}
   virtual ~RawParser() = default;

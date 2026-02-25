@@ -68,7 +68,7 @@ bool MosDecoder::isAppropriateDecoder(const TiffRootIFD* rootIFD,
 }
 
 MosDecoder::MosDecoder(TiffRootIFDOwner&& rootIFD, const Buffer* file)
-    : AbstractTiffDecoder(move(rootIFD), file) {
+    : AbstractTiffDecoder(std::move(rootIFD), file) {
   if (mRootIFD->getEntryRecursive(MAKE)) {
     auto id = mRootIFD->getID();
     make = id.make;

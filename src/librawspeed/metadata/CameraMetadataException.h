@@ -26,7 +26,8 @@
 #include <string> // for string
 
 namespace rawspeed {
-
+//.mydiff
+/*
 class CameraMetadataException final : public RawspeedException {
 public:
   explicit RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
@@ -36,5 +37,5 @@ public:
 
 #define ThrowCME(...)                                                          \
   ThrowExceptionHelper(rawspeed::CameraMetadataException, __VA_ARGS__)
-
+*/
 } // namespace rawspeed

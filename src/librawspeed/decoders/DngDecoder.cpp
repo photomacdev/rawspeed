@@ -61,7 +61,7 @@ DngDecoder::isAppropriateDecoder(const TiffRootIFD* rootIFD,
 }
 
 DngDecoder::DngDecoder(TiffRootIFDOwner&& rootIFD, const Buffer* file)
-    : AbstractTiffDecoder(move(rootIFD), file) {
+    : AbstractTiffDecoder(std::move(rootIFD), file) {
   if (!mRootIFD->hasEntryRecursive(DNGVERSION))
     ThrowRDE("DNG, but version tag is missing. Will not guess.");
 
@@ -739,10 +739,18 @@ bool DngDecoder::decodeBlackLevels(const TiffIFD* raw) {
       if (value < std::numeric_limits<BlackType>::min() ||
           value > std::numeric_limits<BlackType>::max())
         ThrowRDE("Error decoding black level");
-
+      //.mydiff
+#ifndef _MSC_VER
       if (__builtin_sadd_overflow(mRaw->blackLevelSeparate[i], value,
                                   &mRaw->blackLevelSeparate[i]))
         ThrowRDE("Integer overflow when calculating black level");
+#else
+      auto tmp = mRaw->blackLevelSeparate[i];
+      mRaw->blackLevelSeparate[i] += value;
+      if (((value > 0) && (mRaw->blackLevelSeparate[i] < tmp)) || ((value < 0) && (mRaw->blackLevelSeparate[i] > tmp))) {
+          ThrowRDE("Integer overflow when calculating black level");
+      }
+#endif
     }
   }
 
@@ -761,9 +769,18 @@ bool DngDecoder::decodeBlackLevels(const TiffIFD* raw) {
           value > std::numeric_limits<BlackType>::max())
         ThrowRDE("Error decoding black level");
 
+      //.mydiff
+#ifndef _MSC_VER
       if (__builtin_sadd_overflow(mRaw->blackLevelSeparate[i], value,
                                   &mRaw->blackLevelSeparate[i]))
         ThrowRDE("Integer overflow when calculating black level");
+#else
+      auto tmp = mRaw->blackLevelSeparate[i];
+      mRaw->blackLevelSeparate[i] += value;
+      if (((value > 0) && (mRaw->blackLevelSeparate[i] < tmp)) || ((value < 0) && (mRaw->blackLevelSeparate[i] > tmp))) {
+          ThrowRDE("Integer overflow when calculating black level");
+      }
+#endif
     }
   }
   return true;

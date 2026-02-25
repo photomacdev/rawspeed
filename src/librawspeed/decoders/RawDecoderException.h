@@ -26,7 +26,8 @@
 #include <string>                     // for string
 
 namespace rawspeed {
-
+//.mydiff
+/*
 class RawDecoderException : public RawspeedException {
 public:
   explicit RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
@@ -36,5 +37,5 @@ public:
 
 #define ThrowRDE(...)                                                          \
   ThrowExceptionHelper(rawspeed::RawDecoderException, __VA_ARGS__)
-
+*/
 } // namespace rawspeed

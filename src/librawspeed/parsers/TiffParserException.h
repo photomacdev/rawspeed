@@ -28,6 +28,8 @@
 
 namespace rawspeed {
 
+//.mydiff
+/*
 class TiffParserException final : public RawParserException {
 public:
   explicit RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
@@ -37,5 +39,5 @@ public:
 
 #define ThrowTPE(...)                                                          \
   ThrowExceptionHelper(rawspeed::TiffParserException, __VA_ARGS__)
-
+*/
 } // namespace rawspeed

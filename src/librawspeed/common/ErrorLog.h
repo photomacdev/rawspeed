@@ -22,6 +22,7 @@
 
 #include "ThreadSafetyAnalysis.h" // for REQUIRES, GUARDED_BY
 #include "common/Mutex.h"         // for Mutex
+#include "rawspeed_export.h"
 #include <string>                 // for string
 #include <vector>                 // for vector
 
@@ -35,7 +36,7 @@ public:
   void setError(const std::string& err) REQUIRES(!mutex);
   bool isTooManyErrors(unsigned many, std::string* firstErr = nullptr)
       REQUIRES(!mutex);
-  std::vector<std::string>&& getErrors() REQUIRES(!mutex);
+  RAWSPEED_EXPORT std::vector<std::string>&& getErrors() REQUIRES(!mutex);
 };
 
 } // namespace rawspeed

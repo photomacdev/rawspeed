@@ -24,6 +24,7 @@
 #include "common/Common.h"   // for uint32_t, BitOrder
 #include "common/RawImage.h" // for RawImage
 #include "metadata/Camera.h" // for Hints
+#include "rawspeed_export.h"
 #include <string>            // for string
 
 namespace rawspeed {
@@ -49,12 +50,12 @@ public:
   /* A RawDecoderException will be thrown if the camera isn't supported */
   /* Unknown cameras does NOT generate any specific feedback */
   /* This function must be overridden by actual decoders */
-  void checkSupport(const CameraMetaData* meta);
+  RAWSPEED_EXPORT void checkSupport(const CameraMetaData* meta);
 
   /* Attempt to decode the image */
   /* A RawDecoderException will be thrown if the image cannot be decoded, */
   /* and there will not be any data in the mRaw image. */
-  RawImage decodeRaw();
+  RAWSPEED_EXPORT RawImage decodeRaw();
 
   /* This will apply metadata information from the camera database, */
   /* such as crop, black+white level, etc. */
@@ -63,7 +64,7 @@ public:
   /* If meta-data is set during load, this function can be empty. */
   /* The image is expected to be cropped after this, but black/whitelevel */
   /* compensation is not expected to be applied to the image */
-  void decodeMetaData(const CameraMetaData* meta);
+  RAWSPEED_EXPORT void decodeMetaData(const CameraMetaData* meta);
 
   /* Allows access to the root IFD structure */
   /* If image isn't TIFF based NULL will be returned */

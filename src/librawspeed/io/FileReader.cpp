@@ -19,6 +19,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+//.mydiff
+#if !defined (WIN_ARM64)
 #include "io/FileReader.h"
 #include "io/Buffer.h"          // for Buffer, Buffer::size_type
 #include "io/FileIOException.h" // for ThrowFIE
@@ -114,7 +116,8 @@ std::unique_ptr<const Buffer> FileReader::readFile() {
 
 #endif // __unix__
 
-  return std::make_unique<Buffer>(move(dest), fileSize);
+  return std::make_unique<Buffer>(std::move(dest), fileSize);
 }
 
 } // namespace rawspeed
+#endif

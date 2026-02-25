@@ -31,7 +31,14 @@
 
 #if defined(HAVE_MM_MALLOC)
 // for _mm_malloc, _mm_free
-#include <xmmintrin.h>
+
+//.mydiff
+#if defined(__arm64__) || defined(__ARM_NEON)
+    #include "sse/sse2neon.h"
+#else
+    #include <xmmintrin.h>
+#endif
+
 #elif defined(HAVE_ALIGNED_MALLOC)
 extern "C" {
 #include <malloc.h> // for _aligned_malloc, _aligned_free

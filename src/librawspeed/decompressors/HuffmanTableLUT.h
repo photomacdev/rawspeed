@@ -117,6 +117,9 @@ public:
           // -> store only the length and do a normal sign extension later
           assert(!fullDecode || diff_l > 0);
           decodeLookup[c] = diff_l << PayloadShift | code_l;
+
+          if (!fullDecode)
+            decodeLookup[c] |= FlagMask;
         } else {
           // diff_l + code_l <= lookupDepth
           // The table bit depth is large enough to store both.
@@ -124,8 +127,9 @@ public:
           decodeLookup[c] = (code_l + diff_l) | FlagMask;
 
           if (diff_l) {
-            uint32_t diff =
-                (c >> (LookupDepth - code_l - diff_l)) & ((1 << diff_l) - 1);
+            uint32_t diff = extractHighBits(c, code_l + diff_l,
+                                            /*effectiveBitwidth=*/LookupDepth);
+            diff &= ((1 << diff_l) - 1);
             decodeLookup[c] |= static_cast<int32_t>(
                 static_cast<uint32_t>(extend(diff, diff_l)) << PayloadShift);
           }
@@ -135,7 +139,8 @@ public:
   }
 
   template <typename BIT_STREAM>
-  inline __attribute__((always_inline)) int decodeLength(BIT_STREAM& bs) const {
+  inline __attribute__((always_inline)) int
+  decodeCodeValue(BIT_STREAM& bs) const {
     static_assert(BitStreamTraits<BIT_STREAM>::canUseWithHuffmanTable,
                   "This BitStream specialization is not marked as usable here");
     assert(!fullDecode);
@@ -143,7 +148,8 @@ public:
   }
 
   template <typename BIT_STREAM>
-  inline __attribute__((always_inline)) int decodeNext(BIT_STREAM& bs) const {
+  inline __attribute__((always_inline)) int
+  decodeDifference(BIT_STREAM& bs) const {
     static_assert(BitStreamTraits<BIT_STREAM>::canUseWithHuffmanTable,
                   "This BitStream specialization is not marked as usable here");
     assert(fullDecode);
@@ -173,9 +179,9 @@ public:
     // How far did reading of those LookupDepth bits *actually* move us forward?
     bs.skipBitsNoFill(len);
 
-    // If the flag bit is set, then the 'len' was code_l+value,
-    // and payload is the already-extended difference.
-    if (FULL_DECODE && lutEntry & FlagMask)
+    // If the flag bit is set, then we have already skipped all the len bits
+    // we needed to skip, and payload is the answer we were looking for.
+    if (lutEntry & FlagMask)
       return payload;
 
     int codeValue;

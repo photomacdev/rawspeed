@@ -28,8 +28,14 @@ class CameraSensorInfo final {
 public:
   CameraSensorInfo(int black_level, int white_level, int min_iso, int max_iso,
                    std::vector<int> black_separate);
+//.mydiff
+#ifndef _MSC_VER
   bool __attribute__((pure)) isIsoWithin(int iso) const;
   bool __attribute__((pure)) isDefault() const;
+#else
+  bool isIsoWithin(int iso) const;
+  bool isDefault() const;
+#endif
   int mBlackLevel;
   int mWhiteLevel;
   int mMinIso;

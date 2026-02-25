@@ -26,7 +26,8 @@
 #include <string>                     // for string
 
 namespace rawspeed {
-
+//.mydiff
+/*
 class IOException final : public RawspeedException {
 public:
   explicit RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
@@ -35,5 +36,5 @@ public:
 };
 
 #define ThrowIOE(...) ThrowExceptionHelper(rawspeed::IOException, __VA_ARGS__)
-
+*/
 } // namespace rawspeed

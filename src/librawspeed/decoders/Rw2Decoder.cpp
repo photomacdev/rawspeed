@@ -178,8 +178,16 @@ void Rw2Decoder::decodeMetaDataInternal(const CameraMetaData* meta) {
     const auto getBlack = [&raw](TiffTag t) -> int {
       const auto val = raw->getEntry(t)->getU32();
       int out;
+      //.mydiff
+#ifndef _MSC_VER
       if (__builtin_sadd_overflow(val, 15, &out))
         ThrowRDE("Integer overflow when calculating black level");
+#else
+      out = val + 15;
+      if (out < val) {
+          ThrowRDE("Integer overflow when calculating black level");
+      }
+#endif
       return out;
     };
 

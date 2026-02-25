@@ -28,6 +28,8 @@
 
 namespace rawspeed {
 
+//.mydiff
+/*
 class FileIOException final : public RawDecoderException {
 public:
   explicit RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
@@ -37,5 +39,5 @@ public:
 
 #define ThrowFIE(...)                                                          \
   ThrowExceptionHelper(rawspeed::FileIOException, __VA_ARGS__)
-
+*/
 } // namespace rawspeed

@@ -206,6 +206,7 @@ endif()
 
 include(compiler-versions)
 include(compiler-flags)
+include(GenerateExportHeader)
 
 add_custom_target(check-rawspeed ALL)
 add_custom_target(dependencies ALL)
@@ -221,7 +222,16 @@ if(BUILD_BENCHMARKING)
   add_custom_target(benchmarks ALL)
 endif()
 
-rawspeed_add_library(rawspeed STATIC)
+rawspeed_add_library(rawspeed SHARED)
+
+#.mydiff
+generate_export_header(rawspeed
+  EXPORT_FILE_NAME ${CMAKE_CURRENT_BINARY_DIR}/rawspeed_export.h
+)
+
+target_include_directories(rawspeed PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_compile_definitions(rawspeed PRIVATE RAWSPEED_BUILDING_LIBRARY)
+#.mydiff
 
 include(src-dependencies)
 

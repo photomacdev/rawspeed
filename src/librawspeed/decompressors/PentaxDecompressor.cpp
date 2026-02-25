@@ -91,7 +91,7 @@ HuffmanTable PentaxDecompressor::SetupHuffmanTable_Modern(ByteStream stream) {
   std::array<uint32_t, 16> v2;
   /* Calculate codes and store bitcounts */
   for (uint32_t c = 0; c < depth; c++) {
-    v2[c] = v0[c] >> (12 - v1[c]);
+    v2[c] = extractHighBits(v0[c], v1[c], /*effectiveBitwidth=*/12);
     nCodesPerLength.at(v1[c])++;
   }
 
@@ -150,7 +150,7 @@ void PentaxDecompressor::decompress(const ByteStream& data) const {
       pred = {out(row - 2, 0), out(row - 2, 1)};
 
     for (int col = 0; col < out.width; col++) {
-      pred[col & 1] += ht.decodeNext(bs);
+      pred[col & 1] += ht.decodeDifference(bs);
       int value = pred[col & 1];
       if (!isIntN(value, 16))
         ThrowRDE("decoded value out of bounds at %d:%d", col, row);

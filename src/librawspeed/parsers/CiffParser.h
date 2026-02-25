@@ -23,6 +23,7 @@
 
 #include "parsers/RawParser.h" // for RawParser
 #include "tiff/CiffIFD.h"      // for CiffIFD
+#include "rawspeed_export.h"
 #include <memory>              // for unique_ptr
 
 namespace rawspeed {
@@ -33,7 +34,7 @@ class RawDecoder;
 
 class CameraMetaData;
 
-class CiffParser final : public RawParser {
+class RAWSPEED_EXPORT CiffParser final : public RawParser {
   std::unique_ptr<const CiffIFD> mRootIFD;
 
 public:

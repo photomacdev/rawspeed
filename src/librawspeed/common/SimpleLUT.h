@@ -50,7 +50,7 @@ public:
     const auto fullTableSize = 1U << TableBitWidth;
     table.reserve(fullTableSize);
     std::generate_n(std::back_inserter(table), fullTableSize,
-                    [&f, table = &table]() {
+                    [&f, table = &table, &fullTableSize]() {
                       // which row [0..fullTableSize) are we filling?
                       const auto i = table->size();
                       return f(i, fullTableSize);

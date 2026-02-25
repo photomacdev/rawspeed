@@ -114,13 +114,31 @@ void SonyArw2Decompressor::decompressThread() const noexcept {
   for (int y = 0; y < mRaw->dim.y; y++) {
     try {
       decompressRow(y);
-    } catch (RawspeedException& err) {
-      // Propagate the exception out of OpenMP magic.
-      mRaw->setError(err.what());
+    }
+    catch (RawspeedException& err) {
+        // Propagate the exception out of OpenMP magic.
+        mRaw->setError(err.what());
 #ifdef HAVE_OPENMP
 #pragma omp cancel for
 #endif
     }
+    //.mydiff
+    catch (RawDecoderException const& err) {
+        // Propagate the exception out of OpenMP magic.
+        mRaw->setError(err.what());
+#ifdef HAVE_OPENMP
+#pragma omp cancel for
+#endif
+    }
+    catch (...) {
+        // Propagate the exception out of OpenMP magic.
+        mRaw->setError("Unknown");
+#ifdef HAVE_OPENMP
+#pragma omp cancel for
+#endif
+    }
+    //.mydiff end
+
   }
 }
 

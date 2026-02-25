@@ -25,8 +25,11 @@
 
 namespace rawspeed {
 
-template <typename T, typename ActualAllocator = std::allocator<T>,
-          typename = std::enable_if_t<std::is_pod<T>::value>>
+//.mydiff
+//template <typename T, typename ActualAllocator = std::allocator<T>,
+//	        typename = std::enable_if_t<std::is_pod<T>::value>>
+template <typename T, typename ActualAllocator = std::allocator<T>>
+//---------------
 class DefaultInitAllocatorAdaptor {
 public:
   using allocator_traits = std::allocator_traits<ActualAllocator>;
@@ -64,15 +67,17 @@ public:
           allocator_) noexcept
       : allocator(allocator_.get_allocator()) {}
 
-  pointer allocate(size_type n, const void* hint = nullptr) {
-    return allocator.allocate(n, hint);
+  pointer allocate(size_type n) {
+    return allocator.allocate(n);
   }
 
   void deallocate(pointer p, size_type n) noexcept {
     allocator.deallocate(p, n);
   }
-
-  template <typename U>
+//.mydiff
+//template <typename U>
+  template <typename U, typename = std::enable_if_t<std::is_pod<T>::value>>
+//---------------
   void
   construct(U* ptr) noexcept(std::is_nothrow_default_constructible<U>::value) {
     ::new (static_cast<void*>(ptr)) U; // start the life-time, but do not init.

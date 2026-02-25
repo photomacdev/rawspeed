@@ -18,6 +18,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+//.mydiff
+#if !defined (WIN_ARM64)
 #include "io/FileWriter.h"
 #include "common/Common.h"      // for uint32_t
 #include "io/Buffer.h"          // for Buffer
@@ -79,3 +81,4 @@ void FileWriter::writeFile(Buffer* filemap, uint32_t size) {
 }
 
 } // namespace rawspeed
+#endif

@@ -32,6 +32,8 @@ CameraSensorInfo::CameraSensorInfo(int black_level, int white_level,
     : mBlackLevel(black_level), mWhiteLevel(white_level), mMinIso(min_iso),
       mMaxIso(max_iso), mBlackLevelSeparate(std::move(black_separate)) {}
 
+//.mydiff
+#ifndef _MSC_VER
 bool __attribute__((pure)) CameraSensorInfo::isIsoWithin(int iso) const {
   return (iso >= mMinIso && iso <= mMaxIso) || (iso >= mMinIso && 0 == mMaxIso);
 }
@@ -39,5 +41,14 @@ bool __attribute__((pure)) CameraSensorInfo::isIsoWithin(int iso) const {
 bool __attribute__((pure)) CameraSensorInfo::isDefault() const {
   return (0 == mMinIso && 0 == mMaxIso);
 }
+#else
+bool CameraSensorInfo::isIsoWithin(int iso) const {
+    return (iso >= mMinIso && iso <= mMaxIso) || (iso >= mMinIso && 0 == mMaxIso);
+}
+
+bool CameraSensorInfo::isDefault() const {
+    return (0 == mMinIso && 0 == mMaxIso);
+}
+#endif
 
 } // namespace rawspeed

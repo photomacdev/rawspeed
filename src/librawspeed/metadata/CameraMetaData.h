@@ -21,6 +21,7 @@
 #pragma once
 
 #include "rawspeedconfig.h"
+#include "rawspeed_export.h"
 #include "common/Common.h"   // for uint32_t
 #include "metadata/Camera.h" // for Camera
 #include <map>               // for map
@@ -43,7 +44,7 @@ struct CameraId {
   }
 };
 
-class CameraMetaData final {
+class RAWSPEED_EXPORT CameraMetaData final {
 public:
   CameraMetaData() = default;
 

@@ -20,6 +20,9 @@
 
 #pragma once
 
+//.mydiff
+#if !defined (WIN_ARM64)
+
 #include <memory> // for unique_ptr
 
 namespace rawspeed {
@@ -37,3 +40,4 @@ public:
 };
 
 } // namespace rawspeed
+#endif
