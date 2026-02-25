@@ -21,7 +21,6 @@
 #pragma once
 
 #include "rawspeedconfig.h"
-
 #include <algorithm>        // IWYU pragma: keep
 #include <cassert>          // for assert
 #include <climits>          // for CHAR_BIT

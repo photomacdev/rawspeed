@@ -26,6 +26,10 @@
 
 namespace rawspeed {
 
+ extern "C" int rawspeed_get_number_of_processor_cores() {
+    return 4;
+}
+
 #if defined(FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION) && !defined(_DEBUG)
 
 void __attribute__((const))
@@ -34,10 +38,6 @@ writeLog(DEBUG_PRIO priority, const char* format, ...) {
 }
 
 #else
-
-extern "C" int __attribute__((const, visibility("default"))) rawspeed_get_number_of_processor_cores() {
-  return 4;
-}
 
 
 void writeLog(DEBUG_PRIO priority, const char* format, ...) {

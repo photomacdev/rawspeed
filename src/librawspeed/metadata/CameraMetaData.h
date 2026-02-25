@@ -48,6 +48,12 @@ class RAWSPEED_EXPORT CameraMetaData final {
 public:
   CameraMetaData() = default;
 
+  CameraMetaData(const CameraMetaData&) = delete;
+  CameraMetaData& operator=(const CameraMetaData&) = delete;
+
+  CameraMetaData(CameraMetaData&&) noexcept = default;
+  CameraMetaData& operator=(CameraMetaData&&) noexcept = default;
+
 #ifdef HAVE_PUGIXML
   explicit CameraMetaData(const char* docname);
 #endif

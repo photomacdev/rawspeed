@@ -214,10 +214,6 @@ add_custom_target(tests ALL)
 
 include(compiler-warnings)
 
-if(RAWSPEED_ENABLE_WERROR)
-  set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Werror")
-endif()
-
 if(BUILD_BENCHMARKING)
   add_custom_target(benchmarks ALL)
 endif()
