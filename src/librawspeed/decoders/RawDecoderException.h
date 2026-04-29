@@ -27,7 +27,7 @@
 
 namespace rawspeed {
 
-class RawDecoderException : public RawspeedException {
+class RAWSPEED_EXPORT RawDecoderException : public RawspeedException {
   void anchor() const override;
 
 public:

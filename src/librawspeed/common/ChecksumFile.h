@@ -34,8 +34,11 @@ std::vector<ChecksumFileEntry>
 ParseChecksumFileContent(const std::string& ChecksumFileContent,
                          const std::string& RootDir);
 
+//.mydiff
+#if !defined (WIN_ARM64)
 std::vector<ChecksumFileEntry>
 ReadChecksumFile(const std::string& RootDir,
                  const std::string& ChecksumFileBasename = "filelist.sha256");
+#endif
 
 } // namespace rawspeed

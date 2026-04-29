@@ -1,5 +1,6 @@
 # cmake out-of-source build tree
 build*/
+.idea*/
 
 # tmp files
 *~

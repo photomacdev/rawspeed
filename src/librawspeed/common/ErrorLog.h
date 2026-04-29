@@ -24,6 +24,7 @@
 #include "adt/Mutex.h"
 #include <string>
 #include <vector>
+#include "rawspeed_export.h"
 
 namespace rawspeed {
 
@@ -35,7 +36,7 @@ public:
   void setError(const std::string& err) REQUIRES(!mutex);
   bool isTooManyErrors(unsigned many, std::string* firstErr = nullptr)
       REQUIRES(!mutex);
-  std::vector<std::string>&& getErrors() REQUIRES(!mutex);
+  RAWSPEED_EXPORT std::vector<std::string>&& getErrors() REQUIRES(!mutex);
 };
 
 } // namespace rawspeed

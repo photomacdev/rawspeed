@@ -22,6 +22,7 @@
 #pragma once
 
 #include "rawspeedconfig.h"
+#include "rawspeed_export.h"
 #include "common/Common.h"
 #include <array>
 #include <cstdarg>
@@ -45,19 +46,29 @@ template <typename T>
   static char buf[bufSize];
 #endif
 
+
   va_list val;
   va_start(val, fmt);
   vsnprintf(buf.data(), sizeof(buf), fmt, val);
   va_end(val);
-  writeLog(DEBUG_PRIO::EXTRA, "EXCEPTION: %s", buf.data());
+
+  //.mydiff
+  // writeLog(DEBUG_PRIO::EXTRA, "EXCEPTION: %s", buf.data());
+  //.mydiff end
+
   throw T(buf.data());
 }
 
-class RawspeedException : public std::runtime_error {
+
+class RAWSPEED_EXPORT RawspeedException : public std::runtime_error {
+
   static void RAWSPEED_UNLIKELY_FUNCTION RAWSPEED_NOINLINE
   log(const char* msg) {
-    writeLog(DEBUG_PRIO::EXTRA, "EXCEPTION: %s", msg);
+    //.mydiff
+    // writeLog(DEBUG_PRIO::EXTRA, "EXCEPTION: %s", msg);
+    //.mydiff end
   }
+
 
   virtual void anchor() const;
 

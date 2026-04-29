@@ -34,6 +34,6 @@ rawspeed_get_number_of_processor_cores() {
 #else
 extern "C" int RAWSPEED_READNONE __attribute__((visibility("default")))
 rawspeed_get_number_of_processor_cores() {
-  return 1;
+  return 4;
 }
 #endif

@@ -21,6 +21,9 @@
 #pragma once
 
 #include <cstdint>
+//.mydiff
+#if !defined (WIN_ARM64)
+#include "common/Common.h" // for uint32_t
 
 namespace rawspeed {
 
@@ -39,3 +42,4 @@ private:
 };
 
 } // namespace rawspeed
+#endif

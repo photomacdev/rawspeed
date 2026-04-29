@@ -22,12 +22,14 @@
 
 #include "rawspeedconfig.h"
 #include "metadata/Camera.h"
+#include "rawspeed_export.h"
 #include <cstdint>
 #include <map>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <tuple>
+
 
 namespace rawspeed {
 class Camera;
@@ -44,9 +46,15 @@ struct CameraId final {
 };
 
 // NOTE: *NOT* `final`, could be derived from by downstream.
-class CameraMetaData {
+class RAWSPEED_EXPORT CameraMetaData {
 public:
   CameraMetaData() = default;
+
+  CameraMetaData(const CameraMetaData&) = delete;
+  CameraMetaData& operator=(const CameraMetaData&) = delete;
+
+  CameraMetaData(CameraMetaData&&) noexcept = default;
+  CameraMetaData& operator=(CameraMetaData&&) noexcept = default;
 
 #ifdef HAVE_PUGIXML
   explicit CameraMetaData(const char* docname);

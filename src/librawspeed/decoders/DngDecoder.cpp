@@ -800,6 +800,16 @@ bool DngDecoder::decodeMaskedAreas(const TiffIFD* raw) const {
   return !mRaw->blackAreas.empty();
 }
 
+bool sadd_overflow(int a, int b, int* result) {
+  *result = a + b;
+  if ((b > 0 && a > std::numeric_limits<int>::max() - b) ||
+      (b < 0 && a < std::numeric_limits<int>::min() - b))
+    {
+      return true;
+    }
+  return false;
+}
+
 bool DngDecoder::decodeBlackLevels(const TiffIFD* raw) const {
   iPoint2D blackdim(1, 1);
   if (raw->hasEntry(TiffTag::BLACKLEVELREPEATDIM)) {
@@ -883,10 +893,21 @@ bool DngDecoder::decodeBlackLevels(const TiffIFD* raw) const {
           static_cast<double>(value) > std::numeric_limits<BlackType>::max())
         ThrowRDE("Error decoding black level");
 
+      //.mydiff
+#ifndef _MSC_VER
       if (__builtin_sadd_overflow(blackLevelSeparate1D(i),
                                   implicit_cast<int>(value),
-                                  &blackLevelSeparate1D(i)))
+                                  &blackLevelSeparate1D(i))) {
         ThrowRDE("Integer overflow when calculating black level");
+      }
+#else
+      if (sadd_overflow(blackLevelSeparate1D(i),
+                      implicit_cast<int>(value),
+                        &blackLevelSeparate1D(i))) {
+        ThrowRDE("Integer overflow when calculating black level");
+      }
+#endif
+      //.mydiff end
     }
   }
 
@@ -907,10 +928,21 @@ bool DngDecoder::decodeBlackLevels(const TiffIFD* raw) const {
           static_cast<double>(value) > std::numeric_limits<BlackType>::max())
         ThrowRDE("Error decoding black level");
 
+      //.mydiff
+#ifndef _MSC_VER
       if (__builtin_sadd_overflow(blackLevelSeparate1D(i),
                                   implicit_cast<int>(value),
-                                  &blackLevelSeparate1D(i)))
+                                  &blackLevelSeparate1D(i))) {
         ThrowRDE("Integer overflow when calculating black level");
+      }
+#else
+      if (sadd_overflow(blackLevelSeparate1D(i),
+                      implicit_cast<int>(value),
+                        &blackLevelSeparate1D(i))) {
+        ThrowRDE("Integer overflow when calculating black level");
+      }
+#endif
+      //.mydiff end
     }
   }
   return true;

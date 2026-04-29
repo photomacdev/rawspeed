@@ -77,6 +77,8 @@ ParseChecksumFileContent(const std::string& ChecksumFileContent,
   return Listing;
 }
 
+//.mydiff
+#if !defined (WIN_ARM64)
 std::vector<ChecksumFileEntry>
 ReadChecksumFile(const std::string& RootDir,
                  const std::string& ChecksumFileBasename) {
@@ -89,5 +91,6 @@ ReadChecksumFile(const std::string& RootDir,
 
   return ParseChecksumFileContent(ChecksumFileContent, RootDir);
 }
+#endif
 
 } // namespace rawspeed

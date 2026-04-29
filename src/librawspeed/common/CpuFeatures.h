@@ -26,7 +26,7 @@ namespace rawspeed {
 
 class Cpuid final {
 public:
-  static bool RAWSPEED_READNONE SSE2();
+    static bool RAWSPEED_READNONE SSE2();
 };
 
 } // namespace rawspeed

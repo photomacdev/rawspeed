@@ -19,6 +19,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+//.mydiff
+#if !defined (WIN_ARM64)
 #include "io/FileReader.h"
 #include "adt/AlignedAllocator.h"
 #include "adt/Casts.h"
@@ -140,3 +142,4 @@ FileReader::readFile() const {
 }
 
 } // namespace rawspeed
+#endif

@@ -36,6 +36,7 @@
 #include "common/TableLookUp.h"
 #include "metadata/BlackArea.h"
 #include "metadata/ColorFilterArray.h"
+#include "rawspeed_export.h"
 #include <array>
 #include <cassert>
 #include <cmath>
@@ -108,7 +109,7 @@ public:
   int isoSpeed = 0;
 };
 
-class RawImageData : public ErrorLog {
+class RAWSPEED_EXPORT RawImageData : public ErrorLog {
   virtual void anchor() const;
 
   friend class RawImageWorker;
@@ -244,7 +245,8 @@ private:
   friend class RawImage;
 };
 
-class RawImage final {
+
+class RAWSPEED_EXPORT RawImage final {
 public:
   static RawImage create(RawImageType type = RawImageType::UINT16);
   static RawImage create(const iPoint2D& dim,

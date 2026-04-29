@@ -40,7 +40,16 @@
 #ifdef WITH_SSE2
 #include "common/CpuFeatures.h"
 #include <emmintrin.h>
+
+//.mydiff
+#if defined(__arm64__)
+    #include "sse/sse2neon.h"
+#else
+    #include <emmintrin.h> // for __m128i, _mm_load_si128
+    #include <xmmintrin.h> // for _MM_HINT_T0, _mm_prefetch
 #endif
+#endif
+
 
 using std::array;
 using std::max;

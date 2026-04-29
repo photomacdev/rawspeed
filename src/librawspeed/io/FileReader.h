@@ -20,6 +20,10 @@
 
 #pragma once
 
+//.mydiff
+#if !defined (WIN_ARM64)
+
+#include <memory> // for unique_ptr
 #include "adt/AlignedAllocator.h"
 #include "adt/DefaultInitAllocatorAdaptor.h"
 #include "io/Buffer.h"
@@ -48,3 +52,4 @@ public:
 };
 
 } // namespace rawspeed
+#endif

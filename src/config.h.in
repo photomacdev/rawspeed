@@ -20,6 +20,12 @@
 
 #pragma once
 
+#if defined(_MSC_VER)
+#define __attribute__(x)
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#define __builtin_unreachable() assert(!"Unreachable code reached")
+#endif
+
 #if defined(__SSE2__)
 #cmakedefine WITH_SSE2
 #else
