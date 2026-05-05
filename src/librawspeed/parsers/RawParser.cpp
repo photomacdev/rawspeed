@@ -19,6 +19,14 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+#ifdef _MSC_VER
+#if defined(_M_X64)
+#include <immintrin.h> // Only for X86/X64
+#elif defined(_M_ARM64)
+#include <arm64_neon.h> // Only for ARM64
+#endif
+#endif
+
 #include "parsers/RawParser.h"
 #include "decoders/MrwDecoder.h"
 #include "decoders/NakedDecoder.h"

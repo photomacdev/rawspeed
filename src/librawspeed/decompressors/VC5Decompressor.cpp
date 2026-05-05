@@ -62,6 +62,12 @@
 #include <utility>
 #include <vector>
 
+//.mydiff
+#ifdef _MSC_VER
+#include <intrin.h>
+#endif
+
+
 namespace {
 
 // Definitions needed by table17.inc
@@ -415,8 +421,12 @@ VC5Decompressor::VC5Decompressor(ByteStream bs, const RawImage& img)
       wavelet.width = waveletWidth;
       wavelet.height = waveletHeight;
 
-      wavelet.bands.resize(
-          &wavelet == channel.wavelets.begin() ? 1 : Wavelet::maxBands);
+    //.mydiff
+#ifndef _MSC_VER
+      wavelet.bands.resize(&wavelet == channel.wavelets.begin() ? 1 : Wavelet::maxBands);
+#else
+      wavelet.bands.resize(&wavelet == &channel.wavelets[0] ? 1 : Wavelet::maxBands);
+#endif
     }
   }
 
@@ -680,6 +690,29 @@ VC5Decompressor::Wavelet::LowPassBand::decode() const noexcept {
   return lowpass;
 }
 
+//.mydiff
+template <typename T>
+bool mul_overflow(T a, T b, T* result)
+{
+    static_assert(std::is_integral_v<T>);
+    if (a == 0 || b == 0) {
+        *result = 0;
+        return false;
+    }
+
+    if (a == std::numeric_limits<T>::min() && b == -1) {
+        return true;
+    }
+
+    T r = a * b;
+    if (r / b != a) {
+        return true; // overflow happened
+    }
+
+    *result = r;
+    return false;
+}
+
 VC5Decompressor::BandData
 VC5Decompressor::Wavelet::HighPassBand::decode() const {
   class DeRLVer final {
@@ -712,8 +745,19 @@ VC5Decompressor::Wavelet::HighPassBand::decode() const {
 
     int16_t decode() {
       auto dequantize = [quant_ = quant](int16_t val) {
-        if (__builtin_mul_overflow(val, quant_, &val))
-          ThrowRDE("Impossible RLV value given current quantum");
+
+          //.mydiff
+#ifndef _MSC_VER
+        if (__builtin_mul_overflow(val, quant_, &val)) {
+            ThrowRDE("Impossible RLV value given current quantum");
+        }
+#else
+        if (mul_overflow(val, quant_, &val)) {
+            ThrowRDE("Impossible RLV value given current quantum");
+        }
+#endif
+          //.mydiff end
+          
         return val;
       };
 

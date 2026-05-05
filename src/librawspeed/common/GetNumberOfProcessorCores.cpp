@@ -25,6 +25,8 @@
 #include <omp.h>
 #endif
 
+
+/* //.mydiff
 // define this function, it is only declared in rawspeed:
 #ifdef HAVE_OPENMP
 extern "C" int __attribute__((visibility("default")))
@@ -37,3 +39,4 @@ rawspeed_get_number_of_processor_cores() {
   return 4;
 }
 #endif
+*/

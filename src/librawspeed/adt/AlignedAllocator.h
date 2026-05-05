@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include "adt/Invariant.h"
 #include "common/Common.h"
 #include "common/RawspeedException.h"
 #include <cassert>
@@ -43,6 +42,13 @@ public:
   template <class U> struct rebind final {
     using other = AlignedAllocator<U, alignment>;
   };
+
+#ifdef _MSC_VER
+  AlignedAllocator() = default;
+
+  template <class U>
+  AlignedAllocator(const AlignedAllocator<U, alignment>&) noexcept {}
+#endif
 
   [[nodiscard]] T* allocate(std::size_t numElts) const {
     static_assert(size_t(alignment) >= alignof(T), "insufficient alignment");
@@ -81,6 +87,9 @@ public:
   using propagate_on_container_copy_assignment = std::true_type;
   using propagate_on_container_move_assignment = std::true_type;
   using propagate_on_container_swap = std::true_type;
+#ifdef _MSC_VER
+  using is_always_equal = std::true_type;
+#endif
 };
 
 template <class T1, int A1, class T2, int A2>

@@ -90,6 +90,9 @@ public:
 #endif
 #define STR(a) XSTR(a)
 
+
+//.mydiff
+#ifndef _MSC_VER
 #ifndef DEBUG
 #define ThrowExceptionHelper(CLASS, fmt, ...)                                  \
   rawspeed::ThrowException<CLASS>("%s, line " STR(__LINE__) ": " fmt,          \
@@ -100,6 +103,27 @@ public:
   rawspeed::ThrowException<CLASS>(__FILE__ ":" STR(__LINE__) ": %s: " fmt,     \
                                   __PRETTY_FUNCTION__ __VA_OPT__(, )           \
                                       __VA_ARGS__)
+#endif
+#else
+// MSVC specific: __PRETTY_FUNCTION__ is __FUNCSIG__
+#ifndef __PRETTY_FUNCTION__
+#ifdef _MSC_VER
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#else
+#define __PRETTY_FUNCTION__ __func__
+#endif
+#endif
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+#ifndef DEBUG
+#define ThrowExceptionHelper(CLASS, fmt, ...)                                  \
+  rawspeed::ThrowException<CLASS>("%s, line " STR(__LINE__) ": " fmt, __PRETTY_FUNCTION__)
+#else
+#define ThrowExceptionHelper(CLASS, fmt, ...)                                  \
+  rawspeed::ThrowException<CLASS>(__FILE__ ":" STR(__LINE__) ": %s: " fmt, __PRETTY_FUNCTION__)
+#endif
 #endif
 
 #define ThrowRSE(...)                                                          \

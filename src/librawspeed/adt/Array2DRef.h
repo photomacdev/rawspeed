@@ -103,6 +103,7 @@ public:
   }
 
   [[nodiscard]] Optional<Array1DRef<T>> getAsArray1DRef() const;
+  [[nodiscard]] Optional<Array1DRef<T>> getAsUncroppedArray1DRef() const;
 
   Array1DRef<T> operator[](int row) const;
 
@@ -180,6 +181,12 @@ Array2DRef<T>::getAsArray1DRef() const {
   if (height() == 1 || _pitch == width())
     return data.getCrop(/*offset=*/0, width() * height()).getAsArray1DRef();
   return std::nullopt;
+}
+
+template <class T>
+[[nodiscard]] inline Optional<Array1DRef<T>> Array2DRef<T>::getAsUncroppedArray1DRef() const {
+  establishClassInvariants();
+  return data.getCrop(/*offset=*/0, width() * height()).getAsArray1DRef();
 }
 
 template <class T>

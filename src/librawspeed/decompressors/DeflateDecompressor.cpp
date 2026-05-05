@@ -41,8 +41,8 @@
 #include <cstdint>
 #include <memory>
 #include <utility>
-#include <zconf.h>
-#include <zlib.h>
+#include "zconf.h"
+#include "zlib.h"
 
 namespace rawspeed {
 

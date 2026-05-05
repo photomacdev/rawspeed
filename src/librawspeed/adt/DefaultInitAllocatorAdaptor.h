@@ -82,6 +82,9 @@ public:
       typename allocator_traits::propagate_on_container_move_assignment;
   using propagate_on_container_swap =
       typename allocator_traits::propagate_on_container_swap;
+#ifdef _MSC_VER
+  using is_always_equal = std::true_type;
+#endif
 };
 
 template <typename T0, typename A0, typename T1, typename A1>

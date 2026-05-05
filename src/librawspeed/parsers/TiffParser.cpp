@@ -54,6 +54,10 @@
 #include <utility>
 #include <vector>
 
+#ifdef _MSC_VER
+#include <intrin.h>
+#endif
+
 namespace rawspeed {
 class RawDecoder;
 

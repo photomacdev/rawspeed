@@ -271,7 +271,7 @@ inline RawImage RawImage::create(RawImageType type) {
   case RawImageType::F32:
     return RawImage(std::make_shared<RawImageDataFloat>());
   }
-  writeLog(DEBUG_PRIO::ERROR, "RawImage::create: Unknown Image type!");
+  writeLog(DEBUG_PRIO::ERROR_, "RawImage::create: Unknown Image type!");
   __builtin_unreachable();
 }
 
@@ -284,7 +284,7 @@ inline RawImage RawImage::create(const iPoint2D& dim, RawImageType type,
     return RawImage(
         std::make_shared<RawImageDataFloat>(dim, componentsPerPixel));
   }
-  writeLog(DEBUG_PRIO::ERROR, "RawImage::create: Unknown Image type!");
+  writeLog(DEBUG_PRIO::ERROR_, "RawImage::create: Unknown Image type!");
   __builtin_unreachable();
 }
 

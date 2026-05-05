@@ -3,8 +3,8 @@ include(CheckLinkerFlag)
 
 if(RAWSPEED_ENABLE_DEBUG_INFO)
   # always debug info
-  add_definitions(-g3)
-  add_definitions(-ggdb3)
+  #add_definitions(-g3)
+  #add_definitions(-ggdb3)
 
   check_compiler_flag(CXX -gz COMPILER_SUPPORTS_DEBUG_INFO_COMPRESSION)
   check_linker_flag(CXX -gz COMPILER_SUPPORTS_DEBUG_INFO_COMPRESSION_LINK)

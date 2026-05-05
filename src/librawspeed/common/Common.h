@@ -43,7 +43,7 @@ extern "C" int rawspeed_get_number_of_processor_cores();
 namespace rawspeed {
 
 enum class DEBUG_PRIO {
-  ERROR = 0x10,
+  ERROR_ = 0x10,
   WARNING = 0x100,
   INFO = 0x1000,
   EXTRA = 0x10000

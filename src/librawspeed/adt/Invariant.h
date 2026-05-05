@@ -20,9 +20,9 @@
 
 #pragma once
 
-#ifndef NDEBUG
-
 #include <cassert>
+
+#ifndef NDEBUG
 
 #define invariant(expr) assert(expr)
 
@@ -40,10 +40,16 @@
 
 namespace rawspeed {
 
-__attribute__((always_inline)) constexpr inline void invariant(bool precond) {
-  if (!precond)
-    __builtin_unreachable();
-}
+#ifdef _MSC_VER
+    #define invariant(expr) assert(expr)
+#else
+    __attribute__((always_inline)) constexpr inline void invariant(bool precond) {
+        if (!precond) {
+            __builtin_unreachable();
+        }
+    }
+#endif
+
 
 } // namespace rawspeed
 

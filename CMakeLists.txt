@@ -123,9 +123,9 @@ endif()
 set(GOOGLETEST_PATH "/usr/src/googletest" CACHE PATH
                     "Path to the googletest root tree. Should contain googletest and googlemock subdirs. And CMakeLists.txt in root, and in both of these subdirs")
 
-set(PUGIXML_PATH "/usr/src/pugixml" CACHE PATH "Path to the pugixml root tree.")
+set(PUGIXML_PATH ".." CACHE PATH "Path to the pugixml root tree.")
 
-set(ZLIB_PATH "/usr/src/zlib" CACHE PATH "Path to the zlib root tree.")
+set(ZLIB_PATH ".." CACHE PATH "Path to the zlib root tree.")
 
 set(GOOGLEBENCHMARK_PATH "/usr/src/googlebenchmark" CACHE PATH
                     "Path to the googlebenchmark root tree.")
@@ -193,9 +193,9 @@ add_custom_target(tests ALL)
 
 include(compiler-warnings)
 
-if(RAWSPEED_ENABLE_WERROR)
-  CHECK_CXX_COMPILER_FLAG_AND_ENABLE_IT("-Werror")
-endif()
+#if(RAWSPEED_ENABLE_WERROR)
+  #set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Werror")
+#endif()
 
 if(BUILD_BENCHMARKING)
   add_custom_target(benchmarks ALL)
